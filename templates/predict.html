@@ -1,0 +1,176 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Predictor — PurchaseIQ</title>
+  <link rel="stylesheet" href="{{ url_for('static', filename='css/style.css') }}" />
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link href="https://fonts.googleapis.com/css2?family=DM+Serif+Display:ital@0;1&family=DM+Sans:wght@300;400;500;600&display=swap" rel="stylesheet" />
+</head>
+<body class="predict-page">
+
+  <!-- Navigation -->
+  <nav class="navbar">
+    <div class="nav-brand">
+      <a href="/" style="text-decoration:none;display:flex;align-items:center;gap:8px;color:inherit">
+        <span class="brand-icon">◈</span>
+        <span class="brand-name">PurchaseIQ</span>
+      </a>
+    </div>
+    <div class="nav-links">
+      <a href="/" class="nav-link">Home</a>
+      <a href="/predict" class="nav-link active">Predictor</a>
+      <a href="/dashboard" class="nav-link">Dashboard</a>
+    </div>
+  </nav>
+
+  <main class="predict-main">
+    <div class="predict-layout">
+
+      <!-- LEFT: Form Card -->
+      <div class="form-card">
+        <div class="form-header">
+          <h2>Customer Behaviour Input</h2>
+          <p>Fill in the signals below and hit <strong>Predict</strong>.</p>
+        </div>
+
+        <form id="predictForm" novalidate>
+
+          <!-- Row 1 -->
+          <div class="form-row two-col">
+            <div class="field-group">
+              <label for="age">Age <span class="req">*</span></label>
+              <input type="number" id="age" name="age" min="18" max="100"
+                     placeholder="e.g. 28" required />
+              <span class="field-hint">18 – 100</span>
+              <span class="field-error" id="err-age"></span>
+            </div>
+
+            <div class="field-group">
+              <label for="gender">Gender <span class="req">*</span></label>
+              <select id="gender" name="gender" required>
+                <option value="" disabled selected>Select…</option>
+                <option value="0">Female</option>
+                <option value="1">Male</option>
+              </select>
+              <span class="field-error" id="err-gender"></span>
+            </div>
+          </div>
+
+          <!-- Row 2 -->
+          <div class="form-row two-col">
+            <div class="field-group">
+              <label for="time_spent">Time on Site <span class="req">*</span></label>
+              <div class="input-unit-wrap">
+                <input type="number" id="time_spent" name="time_spent"
+                       min="0" max="600" step="0.1"
+                       placeholder="e.g. 12.5" required />
+                <span class="input-unit">min</span>
+              </div>
+              <span class="field-error" id="err-time_spent"></span>
+            </div>
+
+            <div class="field-group">
+              <label for="prev_purchases">Past Purchases <span class="req">*</span></label>
+              <input type="number" id="prev_purchases" name="prev_purchases"
+                     min="0" max="200" placeholder="e.g. 3" required />
+              <span class="field-hint">Historical order count</span>
+              <span class="field-error" id="err-prev_purchases"></span>
+            </div>
+          </div>
+
+          <!-- Row 3 -->
+          <div class="form-row two-col">
+            <div class="field-group">
+              <label for="pages_visited">Pages Visited <span class="req">*</span></label>
+              <input type="number" id="pages_visited" name="pages_visited"
+                     min="1" max="200" placeholder="e.g. 7" required />
+              <span class="field-error" id="err-pages_visited"></span>
+            </div>
+
+            <div class="field-group">
+              <label for="cart_items">Cart Items <span class="req">*</span></label>
+              <input type="number" id="cart_items" name="cart_items"
+                     min="0" max="50" placeholder="e.g. 2" required />
+              <span class="field-error" id="err-cart_items"></span>
+            </div>
+          </div>
+
+          <!-- Toggle: Discount Used -->
+          <div class="form-row">
+            <div class="field-group toggle-group">
+              <label>Discount / Coupon Used?</label>
+              <div class="toggle-wrap">
+                <button type="button" class="toggle-btn active" id="discNo"
+                        onclick="setDiscount(0)">No</button>
+                <button type="button" class="toggle-btn" id="discYes"
+                        onclick="setDiscount(1)">Yes</button>
+              </div>
+              <input type="hidden" id="discount_used" name="discount_used" value="0" />
+            </div>
+          </div>
+
+          <!-- Submit -->
+          <button type="submit" class="btn-predict" id="submitBtn">
+            <span class="btn-text">Predict Purchase Intent</span>
+            <span class="btn-spinner hidden" id="spinner">
+              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5">
+                <path d="M12 2v4M12 18v4M4.93 4.93l2.83 2.83M16.24 16.24l2.83 2.83M2 12h4M18 12h4M4.93 19.07l2.83-2.83M16.24 7.76l2.83-2.83"/>
+              </svg>
+            </span>
+          </button>
+        </form>
+      </div>
+
+      <!-- RIGHT: Result Panel -->
+      <div class="result-panel" id="resultPanel">
+
+        <!-- Idle state -->
+        <div class="result-idle" id="resultIdle">
+          <div class="idle-icon">🎯</div>
+          <h3>Ready to Predict</h3>
+          <p>Complete the form on the left and submit to see the AI verdict here.</p>
+        </div>
+
+        <!-- Result state (hidden until prediction) -->
+        <div class="result-content hidden" id="resultContent">
+
+          <div class="result-verdict" id="resultVerdict">
+            <!-- Filled by JS -->
+          </div>
+
+          <div class="confidence-wrap">
+            <div class="conf-label">
+              <span>Confidence Score</span>
+              <span id="confPct" class="conf-value">—</span>
+            </div>
+            <div class="conf-bar-bg">
+              <div class="conf-bar-fill" id="confBar"></div>
+            </div>
+          </div>
+
+          <div class="result-meta" id="resultMeta"></div>
+
+          <div class="recommendations" id="recommendations">
+            <h4>💡 Recommendations</h4>
+            <ul id="recList"></ul>
+          </div>
+
+          <button class="btn-reset" onclick="resetForm()">← New Prediction</button>
+        </div>
+
+        <!-- Error state -->
+        <div class="result-error hidden" id="resultError">
+          <div class="idle-icon">⚠️</div>
+          <h3>Something went wrong</h3>
+          <p id="errorMsg"></p>
+        </div>
+      </div>
+
+    </div>
+  </main>
+
+  <script src="{{ url_for('static', filename='js/predict.js') }}"></script>
+</body>
+</html>

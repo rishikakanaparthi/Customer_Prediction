@@ -1,0 +1,140 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>PurchaseIQ — AI-Powered E-commerce Intelligence</title>
+  <link rel="stylesheet" href="{{ url_for('static', filename='css/style.css') }}" />
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link href="https://fonts.googleapis.com/css2?family=DM+Serif+Display:ital@0;1&family=DM+Sans:wght@300;400;500;600&display=swap" rel="stylesheet" />
+</head>
+<body class="home-page">
+
+  <!-- Navigation -->
+  <nav class="navbar">
+    <div class="nav-brand">
+      <span class="brand-icon">◈</span>
+      <span class="brand-name">PurchaseIQ</span>
+    </div>
+    <div class="nav-links">
+      <a href="/" class="nav-link active">Home</a>
+      <a href="/predict" class="nav-link">Predictor</a>
+      <a href="/dashboard" class="nav-link">Dashboard</a>
+    </div>
+  </nav>
+
+  <!-- Hero Section -->
+  <section class="hero">
+    <div class="hero-bg">
+      <div class="orb orb-1"></div>
+      <div class="orb orb-2"></div>
+      <div class="orb orb-3"></div>
+      <div class="grid-overlay"></div>
+    </div>
+
+    <div class="hero-content">
+      <div class="badge">
+        <span class="badge-dot"></span>
+        Powered by Random Forest · 90.5% Accuracy
+      </div>
+
+      <h1 class="hero-title">
+        Predict Customer
+        <em>Purchase Intent</em>
+        with AI
+      </h1>
+
+      <p class="hero-subtitle">
+        Feed in behavioural signals — time on site, browsing history, cart data —
+        and get an instant ML-powered verdict on whether your visitor will convert.
+      </p>
+
+      <div class="hero-cta">
+        <a href="/predict" class="btn-primary">
+          Run a Prediction
+          <span class="btn-arrow">→</span>
+        </a>
+        <a href="/dashboard" class="btn-ghost">View Dashboard</a>
+      </div>
+
+      <!-- Stats row -->
+      <div class="stats-row">
+        <div class="stat">
+          <span class="stat-num">90.5%</span>
+          <span class="stat-label">Model Accuracy</span>
+        </div>
+        <div class="stat-divider"></div>
+        <div class="stat">
+          <span class="stat-num">7</span>
+          <span class="stat-label">Behavioural Signals</span>
+        </div>
+        <div class="stat-divider"></div>
+        <div class="stat">
+          <span class="stat-num">&lt; 50ms</span>
+          <span class="stat-label">Prediction Latency</span>
+        </div>
+      </div>
+    </div>
+
+    <!-- Feature cards -->
+    <div class="feature-grid">
+      <div class="feature-card" style="--delay:0s">
+        <div class="feature-icon">🧠</div>
+        <h3>Random Forest Model</h3>
+        <p>200-tree ensemble trained on 2 000 synthetic e-commerce sessions.</p>
+      </div>
+      <div class="feature-card" style="--delay:0.1s">
+        <div class="feature-icon">📊</div>
+        <h3>Confidence Scores</h3>
+        <p>Every prediction includes a probability score so you know how certain the model is.</p>
+      </div>
+      <div class="feature-card" style="--delay:0.2s">
+        <div class="feature-icon">💡</div>
+        <h3>Smart Recommendations</h3>
+        <p>Actionable tips tailored to each prediction to boost conversion rates.</p>
+      </div>
+      <div class="feature-card" style="--delay:0.3s">
+        <div class="feature-icon">🗄️</div>
+        <h3>History & Analytics</h3>
+        <p>All predictions are stored and visualised in the live dashboard.</p>
+      </div>
+    </div>
+  </section>
+
+  <!-- How it works -->
+  <section class="how-it-works">
+    <h2 class="section-title">How It Works</h2>
+    <div class="steps">
+      <div class="step">
+        <div class="step-num">01</div>
+        <h4>Enter Signals</h4>
+        <p>Fill in customer age, gender, time on site, purchases, cart size, and more.</p>
+      </div>
+      <div class="step-arrow">→</div>
+      <div class="step">
+        <div class="step-num">02</div>
+        <h4>ML Processes</h4>
+        <p>The Random Forest model scores your input across 200 decision trees.</p>
+      </div>
+      <div class="step-arrow">→</div>
+      <div class="step">
+        <div class="step-num">03</div>
+        <h4>Instant Verdict</h4>
+        <p>Get a clear "Will Purchase / Will Not Purchase" result with confidence %.</p>
+      </div>
+      <div class="step-arrow">→</div>
+      <div class="step">
+        <div class="step-num">04</div>
+        <h4>Take Action</h4>
+        <p>Review personalised recommendations to maximise conversion opportunity.</p>
+      </div>
+    </div>
+  </section>
+
+  <footer class="footer">
+    <p>PurchaseIQ · Built with Flask, Scikit-learn & ☕</p>
+  </footer>
+
+  <script src="{{ url_for('static', filename='js/main.js') }}"></script>
+</body>
+</html>
